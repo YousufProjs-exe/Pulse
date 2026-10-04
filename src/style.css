@@ -206,3 +206,51 @@ iframe {
   background: #c293bc;
   color: white;
 }
+
+.sidebar button {
+  width: 100%;
+  padding: 9px;
+
+  background: white;
+  border: 3px solid #171717;
+
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.sidebar button:hover {
+  background: #c293bc;
+  color: white;
+}
+
+#asteroidResults {
+  margin-top: 15px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.asteroid {
+  margin-top: 10px;
+  padding: 10px;
+
+  background: white;
+  border: 2px solid #171717;
+}
+
+.asteroid h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.asteroid p {
+  width: auto;
+  margin: 0;
+  padding: 0;
+
+  border: none;
+  background: none;
+
+  font-size: 12px;
+}

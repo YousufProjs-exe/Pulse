@@ -6,6 +6,8 @@ const datepicker = document.querySelector("#datepicker");
 const todayButton = document.querySelector("#todayButton");
 const randomButton = document.querySelector("#randomButton");
 const nasaButton = document.querySelector("#nasaButton");
+const asteroidButton = document.querySelector("#asteroidButton");
+const asteroidResults = document.querySelector("#asteroidResults");
 
 let currentAPOD = null;
 
@@ -65,6 +67,62 @@ function loadAPOD(date = "") {
     });
 }
 
+function loadAsteroids(date) {
+  const selectedDate = date || new Date().toISOString().slice(0, 10);
+
+  asteroidResults.innerHTML = "loading...";
+
+  fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${selectedDate}&end_date=${selectedDate}&api_key=DEMO_KEY`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`NASA ${response.status}`);
+      }
+
+      return response.json();
+    })
+    .then(data => {
+      const asteroids = data.near_earth_objects[selectedDate] || [];
+
+      if (asteroids.length === 0) {
+        asteroidResults.innerHTML = "No asteroids found.";
+        return;
+      }
+
+      asteroidResults.innerHTML = `<strong>${asteroids.length} objects</strong>`;
+
+      asteroids.forEach(asteroid => {
+        const approach = asteroid.close_approach_data[0];
+        const size = asteroid.estimated_diameter.meters;
+
+        asteroidResults.innerHTML += `
+          <div class="asteroid">
+            <h3>${asteroid.name}</h3>
+
+            <p>Size:
+              ${Math.round(size.estimated_diameter_min)} -
+              ${Math.round(size.estimated_diameter_max)} m
+            </p>
+
+            <p>Speed:
+              ${Math.round(
+                approach.relative_velocity.kilometers_per_second
+              )} km/s
+            </p>
+
+            <p>Miss distance:
+              ${Math.round(
+                Number(approach.miss_distance.kilometers)
+              ).toLocaleString()} km
+            </p>
+          </div>
+        `;
+      });
+    })
+    .catch(error => {
+      asteroidResults.innerHTML = `Error: ${error.message}`;
+    });
+}
+
 loadAPOD();
 
 datepicker.addEventListener("change", () => {
@@ -97,4 +155,8 @@ nasaButton.addEventListener("click", () => {
   if (currentAPOD?.url) {
     window.open(currentAPOD.url, "_blank");
   }
+});
+
+asteroidButton.addEventListener("click", () => {
+  loadAsteroids(datepicker.value);
 });
