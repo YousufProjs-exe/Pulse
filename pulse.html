@@ -1,0 +1,55 @@
+
+<!doctype html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pulse — NASA APOD</title>
+    <link rel="stylesheet" href="/src/style.css" />
+
+  </head>
+
+  <body>
+
+    <main id="app"></main>
+
+    <aside class="sidebar">
+
+      <h2>DATE</h2>
+
+        <label for="datepicker">Choose a date</label>
+        <input type="date" id="datepicker">
+      
+      <br>
+      
+      <h2>UTILITIES</h2>
+
+        <button id="todayButton">Today</button>
+        <button id="randomButton">Random APOD</button>
+        <button id="nasaButton">NASA APOD Page</button>
+
+    </aside>
+
+    <aside class="sidebar">
+      <h2>ASTEROID WATCH</h2>
+
+        <button id="asteroidButton">Check Asteroids</button>
+        <div id="asteroidResults"></div>
+
+    </aside>
+
+    <aside class="sidebar">
+
+      <h2>SPACE WEATHER</h2>
+
+        <button id="weatherButton">Check Space Weather</button>              
+        <div id="weatherResults"></div>
+
+    </aside>
+
+    <script type="module" src="/src/main.js"></script>
+    
+  </body>
+</html>

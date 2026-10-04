@@ -1,41 +1,68 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+<head>
 
-  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Pulse</title>
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pulse — NASA APOD</title>
-    <link rel="stylesheet" href="/src/style.css" />
+</head>
 
-  </head>
+<style>
 
-  <body>
+    body{
+    background-image: url("./theme.png");
+    /* background-position: center; */
 
-    <main id="app"></main>
+    color: #2cbc9e;
 
-    <aside class="sidebar">
+    padding-top: 100px; 
+    margin-top: 100px;
 
-      <h2>DATE</h2>
+}
 
-        <label for="datepicker">Choose a date</label>
-        <input type="date" id="datepicker">
+.Welcome{
+    margin: auto;
+    padding: 50px;
+}
 
-      <h2>UTILITIES</h2>
+p1 {
+    position: fixed;
+    left: 30px;
+    bottom: 25px;
 
-        <button id="todayButton">Today</button>
-        <button id="randomButton">Random APOD</button>
-        <button id="nasaButton">NASA APOD Page</button>
+    color: gray;
+    cursor: pointer;
+}
 
-      <h2>ASTEROID WATCH</h2>
+</style>
 
-        <button id="asteroidButton">Check Asteroids</button>
-        <div id="asteroidResults"></div>
-
-    </aside>
-
-    <script type="module" src="/src/main.js"></script>
+<body onclick="window.location.href='pulse.html'">
     
-  </body>
+    <div class="Welcome">
+
+        <center>
+            
+            <h1 style="font-family: Arial, Helvetica, sans-serif;">Welcome to - Pulse</h1>
+            <h3>— because apparently making a <a href="https://www.github.com/YousufProjs-exe/YSH-v8"><i>Shell</i></a> and <a href="https://yousufprojs-exe.github.io/YSH-WEBSITE"><i>Web OS</i> </a> wasn't enough.</h3>
+            
+            <br>
+
+            <p> 
+                I built a shell. Then kept going.
+                YSH started as a small CLI on an old PC and somehow turned into a graphical shell with files, networking, themes, utilities, and way too many ideas.
+                So now after Web OS, Pulse - better version of <a href="https://horizon-dash.netlify.app/">Horizon Dashboard</a> and <a href="https://visit-skypulse.netlify.app/">Sky Pulse</a> together.
+            </p>
+        
+            <dfn>Welcome to Pulse — <a href="https://yousufprojs-exe.github.io/Portfolio/">Yousuf</a></dfn>
+            <dfn>Try Web OS — <a href="https://yousufprojs-exe.github.io/YSH-OS-Web/">YSH OS but Web</a></dfn>
+
+        </center>
+        
+        <abbr title="Start Pulse"> <p1>[Click anywhere to start]</p1> </abbr>
+
+    </div>
+
+</body>
 </html>

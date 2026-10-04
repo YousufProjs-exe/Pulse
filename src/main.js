@@ -8,10 +8,12 @@ const randomButton = document.querySelector("#randomButton");
 const nasaButton = document.querySelector("#nasaButton");
 const asteroidButton = document.querySelector("#asteroidButton");
 const asteroidResults = document.querySelector("#asteroidResults");
+const weatherButton = document.querySelector("#weatherButton");
+const weatherResults = document.querySelector("#weatherResults");
 
 let currentAPOD = null;
 
-// used AI only for this function, that too because of outdated guide provided.
+// used AI only for this loadAPOD function, that too because of outdated guide provided.
 function loadAPOD(date = "") {
   app.innerHTML = "<p>loading...</p>";
 
@@ -123,6 +125,45 @@ function loadAsteroids(date) {
     });
 }
 
+function loadSpaceWeather(date) {
+  const selectedDate = date || new Date().toISOString().slice(0, 10);
+
+  weatherResults.innerHTML = "loading...";
+
+  const urls = {
+    flares: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR?startDate=${selectedDate}&endDate=${selectedDate}&api_key=DEMO_KEY`,
+    cmes: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/CME?startDate=${selectedDate}&endDate=${selectedDate}&api_key=DEMO_KEY`,
+    storms: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/GST?startDate=${selectedDate}&endDate=${selectedDate}&api_key=DEMO_KEY`
+  };
+
+  Promise.all([
+    fetch(urls.flares).then(response => response.json()),
+    fetch(urls.cmes).then(response => response.json()),
+    fetch(urls.storms).then(response => response.json())
+  ])
+    .then(([flares, cmes, storms]) => {
+      weatherResults.innerHTML = `
+        <div class="weather">
+          <h3>Solar Flares</h3>
+          <p>${flares.length} events</p>
+        </div>
+
+        <div class="weather">
+          <h3>CMEs</h3>
+          <p>${cmes.length} events</p>
+        </div>
+
+        <div class="weather">
+          <h3>Geomagnetic Storms</h3>
+          <p>${storms.length} events</p>
+        </div>
+      `;
+    })
+    .catch(error => {
+      weatherResults.innerHTML = `Error: ${error.message}`;
+    });
+}
+
 loadAPOD();
 
 datepicker.addEventListener("change", () => {
@@ -159,4 +200,8 @@ nasaButton.addEventListener("click", () => {
 
 asteroidButton.addEventListener("click", () => {
   loadAsteroids(datepicker.value);
+});
+
+weatherButton.addEventListener("click", () => {
+  loadSpaceWeather(datepicker.value);
 });
