@@ -77,7 +77,7 @@ function loadAsteroids(date) {
 
   asteroidResults.innerHTML = "loading...";
 
-  fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${selectedDate}&end_date=${selectedDate}&api_key=N78bkFLmnG61hqQ5rqaGjVeximEa2aSLkz0ThuoI`)
+  fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${selectedDate}&end_date=${selectedDate}&api_key=${API_KEY}`)
     .then(response => {
       if (!response.ok) {
         throw new Error(`NASA ${response.status}`);
@@ -134,9 +134,9 @@ function loadSpaceWeather(date) {
   weatherResults.innerHTML = "loading...";
 
   const urls = {
-    flares: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR?startDate=${selectedDate}&endDate=${selectedDate}&api_key=N78bkFLmnG61hqQ5rqaGjVeximEa2aSLkz0ThuoI`,
-    cmes: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/CME?startDate=${selectedDate}&endDate=${selectedDate}&api_key=N78bkFLmnG61hqQ5rqaGjVeximEa2aSLkz0ThuoI`,
-    storms: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/GST?startDate=${selectedDate}&endDate=${selectedDate}&api_key=N78bkFLmnG61hqQ5rqaGjVeximEa2aSLkz0ThuoI`
+    flares: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR?startDate=${selectedDate}&endDate=${selectedDate}&api_key=${API_KEY}`,
+    cmes: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/CME?startDate=${selectedDate}&endDate=${selectedDate}&api_key=${API_KEY}`,
+    storms: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/GST?startDate=${selectedDate}&endDate=${selectedDate}&api_key=${API_KEY}`
   };
 
   Promise.all([
