@@ -1,0 +1,73 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulse — NASA APOD</title>
+  <link rel="stylesheet" href="./style.css" />
+
+</head>
+
+<body>
+
+  <main id="app"></main>
+
+  <div class="right-area">
+
+    <aside class="tools">
+
+      <section class="sidebar">
+
+        <h2>DATE</h2>
+        <label for="datepicker">Choose a date</label>
+        <input type="date" id="datepicker">
+
+        <h2>UTILITIES</h2>
+        <button id="todayButton">Today</button>
+        <button id="randomButton">Random APOD</button>
+        <button id="nasaButton">NASA APOD Page</button>
+
+      </section>
+
+      <section class="sidebar">
+
+        <h2>ASTEROID WATCH</h2>
+        <button id="asteroidButton">Check Asteroids</button>
+        <div id="asteroidResults"></div>
+
+      </section>
+
+      <section class="sidebar">
+
+        <h2>SPACE WEATHER</h2>
+        <button id="weatherButton">Check Space Weather</button>
+        <div id="weatherResults"></div>
+
+      </section>
+
+    </aside>
+
+    <section class="about">
+
+      <h2>ABOUT PULSE</h2>
+
+      <p>
+        Pulse is a retro NASA workstation built by Yousuf.
+        It started as a Stardance NASA APOD project and was expanded
+        into a personal space dashboard.
+      </p>
+
+      <p>Built with Vite, Vanilla JavaScript and NASA APIs.</p>
+      
+      <a href="https://github.com/YousufProjs-exe/Pulse" target="_blank">View Pulse on GitHub</a>
+
+    </section>
+
+  </div>
+
+  <script type="module" src="./main.js"></script>
+  
+</body>
+</html>

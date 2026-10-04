@@ -24,7 +24,8 @@ function loadAPOD(date = "") {
     const shortDate = `${year.slice(2)}${month}${day}`;
 
     url = `https://science.nasa.gov/wp-json/wp/v2/apod-basic/${shortDate}?api_key=${API_KEY}`;
-  } else {
+  } 
+  else {
     url = `https://science.nasa.gov/wp-json/wp/v2/apod-basic/?api_key=${API_KEY}`;
   }
 
@@ -52,9 +53,11 @@ function loadAPOD(date = "") {
 
       if (apod.media_type === "image") {
         media = `<img src="${apod.hdurl || apod.url}" alt="${apod.alt || apod.title}">`;
-      } else if (apod.media_type === "iframe") {
+      } 
+      else if (apod.media_type === "iframe") {
         media = `<iframe src="${apod.url}" title="${apod.title}" width="100%" height="500" frameborder="0" allowfullscreen></iframe>`;
-      } else {
+      } 
+      else {
         media = `<video src="${apod.url}" controls></video>`;
       }
 
