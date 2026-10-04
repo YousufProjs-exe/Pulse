@@ -4,14 +4,24 @@ const API_KEY = import.meta.env.VITE_NASA_API_KEY;
 const app = document.querySelector("#app");
 const datepicker = document.querySelector("#datepicker");
 
+// used AI only for this function, that too because of outdated guide provided.
 function loadAPOD(date = "") {
   app.innerHTML = "<p>loading...</p>";
 
-  const dateParam = date ? `&date=${date}` : "";
+  let url;
 
-  fetch(
-    `https://science.nasa.gov/wp-json/wp/v2/apod-basic/?api_key=${API_KEY}${dateParam}`
-  )
+  if (date) {
+    const [year, month, day] = date.split("-");
+    const shortDate = `${year.slice(2)}${month}${day}`;
+
+    url = `https://science.nasa.gov/wp-json/wp/v2/apod-basic/${shortDate}?api_key=${API_KEY}`;
+  } else {
+    url = `https://science.nasa.gov/wp-json/wp/v2/apod-basic/?api_key=${API_KEY}`;
+  }
+
+  console.log("Fetching:", url);
+
+  fetch(url)
     .then(response => {
       if (!response.ok) {
         return response.text().then(error => {
@@ -28,32 +38,14 @@ function loadAPOD(date = "") {
         throw new Error(apod?.error?.message || "No APOD data received.");
       }
 
-      let media = "";
+      let media;
 
       if (apod.media_type === "image") {
-        const imageUrl = apod.hdurl || apod.url;
-
-        media = `
-          <img
-            src="${imageUrl}"
-            alt="${apod.alt || apod.title}"
-          />
-        `;
+        media = `<img src="${apod.hdurl || apod.url}" alt="${apod.alt || apod.title}">`;
       } else if (apod.media_type === "iframe") {
-        media = `
-          <iframe
-            src="${apod.url}"
-            title="${apod.title}"
-            width="100%"
-            height="500"
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
-        `;
+        media = `<iframe src="${apod.url}" title="${apod.title}" width="100%" height="500" frameborder="0" allowfullscreen></iframe>`;
       } else {
-        media = `
-          <video src="${apod.url}" controls></video>
-        `;
+        media = `<video src="${apod.url}" controls></video>`;
       }
 
       app.innerHTML = `
