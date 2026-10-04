@@ -1,24 +1,74 @@
+
 const API_KEY = import.meta.env.VITE_NASA_API_KEY;
 
-document.querySelector("#app").innerHTML = "<p>loading...</p>";
+const app = document.querySelector("#app");
+const datepicker = document.querySelector("#datepicker");
 
-fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`)
-  .then(response => response.json())
-  .then(data => {
-    let media;
+function loadAPOD(date = "") {
+  app.innerHTML = "<p>loading...</p>";
 
-    if (data.media_type === "image") {
-      media = `<img src="${data.url}"/>`;
-    } else {
-      media = `<video src="${data.url}" controls></video>`;
-    }
+  const dateParam = date ? `&date=${date}` : "";
 
-    document.querySelector("#app").innerHTML = `
-      <h1>${data.title}</h1>
-      ${media}
-      <p>${data.explanation}</p>
-    `;
-  })
-  .catch(err => {
-    document.querySelector("#app").innerHTML = `<p>Error: ${err.message}</p>`;
-  });
+  fetch(
+    `https://science.nasa.gov/wp-json/wp/v2/apod-basic/?api_key=${API_KEY}${dateParam}`
+  )
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(error => {
+          throw new Error(`NASA ${response.status}: ${error}`);
+        });
+      }
+
+      return response.json();
+    })
+    .then(data => {
+      const apod = Array.isArray(data) ? data[0] : data;
+
+      if (!apod || apod.error) {
+        throw new Error(apod?.error?.message || "No APOD data received.");
+      }
+
+      let media = "";
+
+      if (apod.media_type === "image") {
+        const imageUrl = apod.hdurl || apod.url;
+
+        media = `
+          <img
+            src="${imageUrl}"
+            alt="${apod.alt || apod.title}"
+          />
+        `;
+      } else if (apod.media_type === "iframe") {
+        media = `
+          <iframe
+            src="${apod.url}"
+            title="${apod.title}"
+            width="100%"
+            height="500"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+        `;
+      } else {
+        media = `
+          <video src="${apod.url}" controls></video>
+        `;
+      }
+
+      app.innerHTML = `
+        <h1>${apod.title}</h1>
+        ${media}
+        <p>${apod.explanation}</p>
+      `;
+    })
+    .catch(err => {
+      app.innerHTML = `<p>Error: ${err.message}</p>`;
+    });
+}
+
+loadAPOD();
+
+datepicker.addEventListener("change", () => {
+  loadAPOD(datepicker.value);
+});
