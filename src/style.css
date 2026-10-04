@@ -1,6 +1,8 @@
 
 * {
   box-sizing: border-box;
+  /* cursor:cell; */
+  /* cursor-color: #c293bc; */
 }
 
 body {
@@ -9,6 +11,7 @@ body {
   background: url("/theme.png") center / cover fixed no-repeat;
   font-family: "Courier New", monospace;
   color: #111;
+  /* color: #4c6dc8; bad deecision */
   display: flex;
   align-items: flex-start;
   gap: 20px;
