@@ -3,6 +3,11 @@ const API_KEY = import.meta.env.VITE_NASA_API_KEY;
 
 const app = document.querySelector("#app");
 const datepicker = document.querySelector("#datepicker");
+const todayButton = document.querySelector("#todayButton");
+const randomButton = document.querySelector("#randomButton");
+const nasaButton = document.querySelector("#nasaButton");
+
+let currentAPOD = null;
 
 // used AI only for this function, that too because of outdated guide provided.
 function loadAPOD(date = "") {
@@ -33,6 +38,7 @@ function loadAPOD(date = "") {
     })
     .then(data => {
       const apod = Array.isArray(data) ? data[0] : data;
+      currentAPOD = apod;
 
       if (!apod || apod.error) {
         throw new Error(apod?.error?.message || "No APOD data received.");
@@ -63,4 +69,32 @@ loadAPOD();
 
 datepicker.addEventListener("change", () => {
   loadAPOD(datepicker.value);
+});
+
+todayButton.addEventListener("click", () => {
+  datepicker.value = "";
+  loadAPOD();
+});
+
+randomButton.addEventListener("click", () => {
+  const start = new Date(1995, 5, 16);
+  const end = new Date();
+
+  const time = start.getTime() +
+    Math.random() * (end.getTime() - start.getTime());
+
+  const randomDate = new Date(time);
+
+  const year = randomDate.getFullYear();
+  const month = String(randomDate.getMonth() + 1).padStart(2, "0");
+  const day = String(randomDate.getDate()).padStart(2, "0");
+
+  datepicker.value = `${year}-${month}-${day}`;
+  loadAPOD(datepicker.value);
+});
+
+nasaButton.addEventListener("click", () => {
+  if (currentAPOD?.url) {
+    window.open(currentAPOD.url, "_blank");
+  }
 });
