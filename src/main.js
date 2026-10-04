@@ -74,7 +74,7 @@ function loadAsteroids(date) {
 
   asteroidResults.innerHTML = "loading...";
 
-  fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${selectedDate}&end_date=${selectedDate}&api_key=DEMO_KEY`)
+  fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${selectedDate}&end_date=${selectedDate}&api_key=N78bkFLmnG61hqQ5rqaGjVeximEa2aSLkz0ThuoI`)
     .then(response => {
       if (!response.ok) {
         throw new Error(`NASA ${response.status}`);
@@ -131,9 +131,9 @@ function loadSpaceWeather(date) {
   weatherResults.innerHTML = "loading...";
 
   const urls = {
-    flares: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR?startDate=${selectedDate}&endDate=${selectedDate}&api_key=DEMO_KEY`,
-    cmes: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/CME?startDate=${selectedDate}&endDate=${selectedDate}&api_key=DEMO_KEY`,
-    storms: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/GST?startDate=${selectedDate}&endDate=${selectedDate}&api_key=DEMO_KEY`
+    flares: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR?startDate=${selectedDate}&endDate=${selectedDate}&api_key=N78bkFLmnG61hqQ5rqaGjVeximEa2aSLkz0ThuoI`,
+    cmes: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/CME?startDate=${selectedDate}&endDate=${selectedDate}&api_key=N78bkFLmnG61hqQ5rqaGjVeximEa2aSLkz0ThuoI`,
+    storms: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/GST?startDate=${selectedDate}&endDate=${selectedDate}&api_key=N78bkFLmnG61hqQ5rqaGjVeximEa2aSLkz0ThuoI`
   };
 
   Promise.all([
@@ -164,15 +164,21 @@ function loadSpaceWeather(date) {
     });
 }
 
-loadAPOD();
+const currentDate = new Date();
+const year = currentDate.getFullYear();
+const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+const day = String(currentDate.getDate()).padStart(2, "0");
+
+datepicker.value = `${year}-${month}-${day}`;
+loadAPOD(datepicker.value);
 
 datepicker.addEventListener("change", () => {
   loadAPOD(datepicker.value);
 });
 
 todayButton.addEventListener("click", () => {
-  datepicker.value = "";
-  loadAPOD();
+  datepicker.value = `${year}-${month}-${day}`;
+  loadAPOD(datepicker.value);
 });
 
 randomButton.addEventListener("click", () => {
