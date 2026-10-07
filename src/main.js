@@ -124,6 +124,11 @@ function loadAsteroids(date) {
       });
     })
     .catch(error => {
+      if (error.message.includes("NASA 403")) {
+        asteroidResults.innerHTML = "NASA API access is currently unavailable. The API may be rate-limited or temporarily restricted. Please try again later.";
+        return;
+      }
+    
       asteroidResults.innerHTML = `Error: ${error.message}`;
     });
 }
@@ -131,7 +136,20 @@ function loadAsteroids(date) {
 function loadSpaceWeather(date) {
   const selectedDate = date || new Date().toISOString().slice(0, 10);
 
-  weatherResults.innerHTML = "loading...";
+  weatherResults.innerHTML = `
+    <div class="weather">
+      <h3>Solar Flares</h3>
+      <p>0 events</p>
+    </div>
+    <div class="weather">
+      <h3>CMEs</h3>
+      <p>0 events</p>
+    </div>
+    <div class="weather">
+      <h3>Geomagnetic Storms</h3>
+      <p>0 events</p>
+    </div>
+  `;
 
   const urls = {
     flares: `https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR?startDate=${selectedDate}&endDate=${selectedDate}&api_key=${API_KEY}`,
@@ -150,12 +168,10 @@ function loadSpaceWeather(date) {
           <h3>Solar Flares</h3>
           <p>${flares.length} events</p>
         </div>
-
         <div class="weather">
           <h3>CMEs</h3>
           <p>${cmes.length} events</p>
         </div>
-
         <div class="weather">
           <h3>Geomagnetic Storms</h3>
           <p>${storms.length} events</p>
@@ -163,6 +179,11 @@ function loadSpaceWeather(date) {
       `;
     })
     .catch(error => {
+      if (error.message.includes("403")) {
+        weatherResults.innerHTML = "NASA API access is currently unavailable. The API may be rate-limited or temporarily restricted. Please try again later.";
+        return;
+      }
+    
       weatherResults.innerHTML = `Error: ${error.message}`;
     });
 }

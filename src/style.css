@@ -41,11 +41,11 @@ body {
 }
 
 .right-area {
-  width: 580px;
+  width: 100%;
 }
 
 .sidebar {
-  width: 180px;
+  width: 100%;
   height: 520px;
   padding: 20px;
   background: #fffaf4;
